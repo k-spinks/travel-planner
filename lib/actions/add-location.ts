@@ -1,8 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
+import { prisma } from "../prisma";
 
 async function geoCodeAddress(address: string) {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY!;
@@ -14,8 +13,9 @@ async function geoCodeAddress(address: string) {
 
   const data = await response.json();
 
+  // Check if Google Maps returned results
   if (!data.results || data.results.length === 0) {
-    throw new Error("Address not found. Please try again.");
+    throw new Error("Invalid location. Please enter a valid address.");
   }
 
   const { lat, lng } = data.results[0].geometry.location;
@@ -29,16 +29,14 @@ export async function addLocation(formData: FormData, tripId: string) {
   }
 
   const address = formData.get("address")?.toString();
-
   if (!address) {
     throw new Error("Missing Address");
   }
 
   try {
     const { lat, lng } = await geoCodeAddress(address);
-    const count = await prisma.location.count({
-      where: { tripId },
-    });
+    const count = await prisma.location.count({ where: { tripId } });
+
     await prisma.location.create({
       data: {
         locationTitle: address,
@@ -48,10 +46,11 @@ export async function addLocation(formData: FormData, tripId: string) {
         order: count,
       },
     });
+
+    return { success: true }; // Return success for client to handle redirect
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    throw new Error(error.message || "Failed to add location");
+    // Throw a clear message to the client
+    throw new Error(error.message || "Failed to add location.");
   }
-
-  redirect(`/trips/${tripId}`);
 }
