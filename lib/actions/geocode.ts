@@ -14,6 +14,7 @@ export async function getCountryFromCoordinates(
 
   const data = await response.json();
   const result = data.results[0];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const countryComponent = result.address_components.find((component: any) =>
     component.types.includes("country")
   );

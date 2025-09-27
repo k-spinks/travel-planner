@@ -1,7 +1,6 @@
 "use server";
 
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import { prisma } from "../prisma";
 
 export default async function deleteTrip(tripId: string) {
@@ -19,6 +18,4 @@ export default async function deleteTrip(tripId: string) {
       id: tripId,
     },
   });
-
-  redirect("/trips");
 }

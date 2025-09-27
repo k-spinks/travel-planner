@@ -1,25 +1,36 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "./ui/button";
 import { addLocation } from "@/lib/actions/add-location";
 
 export default function NewLocationClient({ tripId }: { tripId: string }) {
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (formData: FormData) => {
+    setError(null);
+    try {
+      await addLocation(formData, tripId);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message || "Something went wrong. Please try again.");
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md mx-auto">
         <div className="bg-white p-8 shadow-lg rounded-lg">
-          <h1 className="text-3xl font-bold text-center mb-6">
-            {""}
-            Add New Location
-          </h1>
+          <div className="text-center mb-6">
+            <h1 className="text-3xl font-bold mb-2">Add New Location</h1>
+            <p className="text-lg">Where did you go?</p>
+          </div>
           <form
             className="space-y-6"
             action={(formData: FormData) => {
               startTransition(() => {
-                addLocation(formData, tripId);
+                handleSubmit(formData);
               });
             }}
           >
@@ -35,7 +46,12 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
               />
             </div>
 
-            <Button type="submit" className="w-full">
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
+            <Button
+              type="submit"
+              className="w-full bg-blue-500 hover:bg-blue-700 hover:cursor-pointer"
+            >
               {isPending ? "Adding..." : "Add Location"}
             </Button>
           </form>

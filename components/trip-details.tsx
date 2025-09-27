@@ -31,9 +31,9 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
       await deleteTrip(trip.id);
       setIsDeleteModalOpen(false);
       toast.success("Trip deleted");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      router.push("/trips");
     } catch (error) {
-      toast.error("Failed to delete trip");
+      toast.error(`${error}`);
     }
   }
   return (

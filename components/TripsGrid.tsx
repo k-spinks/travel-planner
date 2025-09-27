@@ -31,7 +31,7 @@ export default function TripsGrid({ trips }: TripsGridProps) {
       {trips.length > visibleCount && (
         <div className="text-center mt-6">
           <Button
-            className="bg-gray-200 text-gray-800 hover:bg-gray-300 shadow"
+            className="bg-gray-200 text-gray-800 hover:bg-gray-300 shadow hover:cursor-pointer"
             onClick={handleLoadMore}
           >
             Load More

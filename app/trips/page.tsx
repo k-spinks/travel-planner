@@ -53,7 +53,7 @@ export default async function TripsPage() {
 
         {trips.length > 0 && (
           <Link href="/trips/new" className="mt-2 lg:mt-0">
-            <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white shadow-md">
+            <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white shadow-md">
               <Plus className="h-5 w-5" />
               New Trip
             </Button>
@@ -77,7 +77,7 @@ export default async function TripsPage() {
                 Start planning your adventure by creating your first trip.
               </p>
               <Link href="/trips/new">
-                <Button className="bg-blue-600 hover:bg-blue-800 text-white shadow">
+                <Button className="bg-blue-600 hover:bg-blue-800 hover:cursor-pointer text-white shadow">
                   Create Trip
                 </Button>
               </Link>

@@ -48,7 +48,7 @@ export default function EditTripForm({ trip }: EditTripFormProps) {
     try {
       await updateTrip({ id: trip.id, title, description, startDate, endDate });
       toast.success("Trip updated successfully!");
-      router.push("/trips");
+      router.push(`/trips/${trip.id}`);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error("Failed to update trip");
