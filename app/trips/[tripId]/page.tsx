@@ -1,3 +1,5 @@
+//app/trips/[tripId]/page.tsx
+
 import { auth } from "@/auth";
 import TripDetailClient from "@/components/trip-details";
 import { prisma } from "@/lib/prisma";
@@ -17,8 +19,6 @@ export default async function TripDetail({
     where: { id: tripId, userId: session.user?.id },
     include: { locations: true },
   });
-
-  console.log(trip);
 
   if (!trip) {
     return <div>Trip not found</div>;

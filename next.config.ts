@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.ufs.sh", // UploadThing file storage
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com", // Google avatar
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com", // Github avatar
+      },
     ],
   },
 };

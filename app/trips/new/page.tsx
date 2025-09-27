@@ -7,6 +7,7 @@ import { UploadButton } from "@/lib/upload-thing";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useState, useTransition } from "react";
+import toast from "react-hot-toast";
 
 export default function NewTrip() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -25,6 +26,7 @@ export default function NewTrip() {
               }
               startTransition(() => {
                 createTrip(formData);
+                toast.success("New trip created!");
               });
             }}
           >
@@ -70,6 +72,7 @@ export default function NewTrip() {
                     "w-full border border-gray-300 px-3 py-2",
                     "rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   )}
+                  required
                 />
               </div>
 
@@ -84,6 +87,7 @@ export default function NewTrip() {
                     "w-full border border-gray-300 px-3 py-2",
                     "rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   )}
+                  required
                 />
               </div>
             </div>
@@ -111,7 +115,11 @@ export default function NewTrip() {
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={isPending}>
+            <Button
+              type="submit"
+              className="w-full bg-green-600 hover:bg-green-800 hover:cursor-pointer"
+              disabled={isPending}
+            >
               {isPending ? "Creating..." : "Create Trip"}
             </Button>
           </form>

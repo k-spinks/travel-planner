@@ -1,7 +1,9 @@
 import { auth } from "@/auth";
+import TripsGrid from "@/components/TripsGrid";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export default async function TripsPage() {
@@ -24,79 +26,65 @@ export default async function TripsPage() {
   if (!session) {
     return (
       <div className="flex justify-center items-center h-screen text-gray-700 text-xl">
-        {" "}
         Please Sign In.
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight"> Dashboard</h1>
-        <Link href="/trips/new">
-          <Button>New Trip</Button>
-        </Link>
+    <div className="space-y-10 container mx-auto px-4 py-12">
+      {/* Header */}
+      <div className="flex flex-col items-center lg:items-start lg:flex-row lg:justify-between space-y-6 lg:space-y-0">
+        <div className="text-center lg:text-left">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
+            Welcome back, {session.user?.name}
+          </h1>
+          <p className="mt-2 text-gray-600 text-lg">
+            {trips.length !== 0 &&
+              `You planned ${trips.length} ${
+                trips.length === 1 ? "trip" : "trips"
+              }.${
+                upcomingTrips.length > 0
+                  ? ` ${upcomingTrips.length} upcoming.`
+                  : ""
+              }`}
+          </p>
+        </div>
+
+        {trips.length > 0 && (
+          <Link href="/trips/new" className="mt-2 lg:mt-0">
+            <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white shadow-md">
+              <Plus className="h-5 w-5" />
+              New Trip
+            </Button>
+          </Link>
+        )}
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle> Welcome back, {session.user?.name} </CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <p>
-            {" "}
-            {trips.length === 0
-              ? "Start planning your first trip by clicking the button above."
-              : `You have ${trips.length} ${
-                  trips.length === 1 ? "trip" : "trips"
-                } planned. ${
-                  upcomingTrips.length > 0
-                    ? `${upcomingTrips.length} upcoming.`
-                    : ""
-                } `}
-          </p>
-        </CardContent>
-      </Card>
-
+      {/* Trips Section */}
       <div>
-        <h2 className="text-xl font-semibold mb-4"> Your Recent Trips</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+          Your Trips
+        </h2>
+
         {trips.length === 0 ? (
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-8">
-              <h3 className="text-xl font-medium mb-2"> No trips yet.</h3>
-              <p className="text-center mb-4 max-w-md">
+          <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <h3 className="text-2xl font-semibold mb-3 text-gray-800">
+                No trips yet.
+              </h3>
+              <p className="text-center text-gray-500 mb-6 max-w-sm">
                 Start planning your adventure by creating your first trip.
               </p>
               <Link href="/trips/new">
-                <Button>Create Trip</Button>
+                <Button className="bg-blue-600 hover:bg-blue-800 text-white shadow">
+                  Create Trip
+                </Button>
               </Link>
             </CardContent>
           </Card>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {sortedTrips.slice(0, 6).map((trip, key) => (
-              <Link key={key} href={`/trips/${trip.id}`}>
-                <Card className="h-full hover:shadow-md transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="line-clamp-1">{trip.title}</CardTitle>
-                  </CardHeader>
-
-                  <CardContent>
-                    <p className="text-sm line-clamp-2 mb-2">
-                      {trip.description}
-                    </p>
-                    <div className="text-sm">
-                      {" "}
-                      {new Date(trip.startDate).toLocaleDateString()} -{" "}
-                      {new Date(trip.endDate).toLocaleDateString()}
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+          <TripsGrid trips={trips} />
         )}
       </div>
     </div>
