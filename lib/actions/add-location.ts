@@ -23,24 +23,18 @@ async function geoCodeAddress(address: string) {
 
 export async function addLocation(formData: FormData, tripId: string) {
   const session = await auth();
-  if (!session) {
-    return { success: false, error: "Not authenticated" };
-  }
+  if (!session) return { success: false, error: "Not authenticated" };
 
   const address = formData.get("address")?.toString();
-  if (!address) {
-    return { success: false, error: "Missing Address" };
-  }
+  if (!address) return { success: false, error: "Missing Address" };
 
   try {
     const geo = await geoCodeAddress(address);
-
-    if (!geo) {
+    if (!geo)
       return {
         success: false,
         error: "Invalid location. Please enter a valid address.",
       };
-    }
 
     const count = await prisma.location.count({ where: { tripId } });
 
@@ -54,7 +48,7 @@ export async function addLocation(formData: FormData, tripId: string) {
       },
     });
 
-    return { success: true }; // everything succeeded
+    return { success: true };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return { success: false, error: err.message || "Failed to add location." };

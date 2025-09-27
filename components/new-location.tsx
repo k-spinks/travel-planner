@@ -8,17 +8,23 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // prevent default form submission
     setError(null);
-    const result = await addLocation(formData, tripId);
 
-    if (!result.success) {
-      setError(result.error); // show error if something went wrong
-      return;
-    }
+    const formData = new FormData(e.currentTarget);
 
-    // successful: redirect
-    window.location.href = `/trips/${tripId}`;
+    startTransition(async () => {
+      const result = await addLocation(formData, tripId);
+
+      if (!result.success) {
+        setError(result.error); // show server-side validation error
+        return;
+      }
+
+      // success → redirect client-side
+      window.location.href = `/trips/${tripId}`;
+    });
   };
 
   return (
@@ -29,14 +35,8 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
             <h1 className="text-3xl font-bold mb-2">Add New Location</h1>
             <p className="text-lg">Where did you go?</p>
           </div>
-          <form
-            className="space-y-6"
-            action={(formData: FormData) => {
-              startTransition(() => {
-                handleSubmit(formData);
-              });
-            }}
-          >
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Address
