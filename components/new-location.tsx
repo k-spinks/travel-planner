@@ -9,15 +9,16 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (formData: FormData) => {
-    setError(null); // reset previous errors
-    try {
-      await addLocation(formData, tripId);
-      // redirect client-side after successful creation
-      window.location.href = `/trips/${tripId}`;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.message); // show the server message (like invalid location)
+    setError(null);
+    const result = await addLocation(formData, tripId);
+
+    if (!result.success) {
+      setError(result.error); // display the error under input
+      return;
     }
+
+    // redirect if successful
+    window.location.href = `/trips/${tripId}`;
   };
 
   return (
