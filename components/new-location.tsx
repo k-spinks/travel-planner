@@ -18,11 +18,11 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
       const result = await addLocation(formData, tripId);
 
       if (!result.success) {
-        setError(result.error); // show server-side validation error
+        setError(result.error); // display error under input
         return;
       }
 
-      // success → redirect client-side
+      // success → client-side redirect
       window.location.href = `/trips/${tripId}`;
     });
   };

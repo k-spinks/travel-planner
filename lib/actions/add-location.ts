@@ -14,7 +14,7 @@ async function geoCodeAddress(address: string) {
   const data = await response.json();
 
   if (!data.results || data.results.length === 0) {
-    return null; // return null for invalid address
+    return null; // invalid address
   }
 
   const { lat, lng } = data.results[0].geometry.location;
@@ -26,15 +26,17 @@ export async function addLocation(formData: FormData, tripId: string) {
   if (!session) return { success: false, error: "Not authenticated" };
 
   const address = formData.get("address")?.toString();
-  if (!address) return { success: false, error: "Missing Address" };
+  if (!address) return { success: false, error: "Missing address" };
 
   try {
     const geo = await geoCodeAddress(address);
-    if (!geo)
+
+    if (!geo) {
       return {
         success: false,
         error: "Invalid location. Please enter a valid address.",
       };
+    }
 
     const count = await prisma.location.count({ where: { tripId } });
 
