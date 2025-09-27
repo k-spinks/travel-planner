@@ -13,9 +13,8 @@ async function geoCodeAddress(address: string) {
 
   const data = await response.json();
 
-  // Check if Google Maps returned results
   if (!data.results || data.results.length === 0) {
-    throw new Error("Invalid location. Please enter a valid address.");
+    return null; // return null for invalid address
   }
 
   const { lat, lng } = data.results[0].geometry.location;
@@ -34,23 +33,30 @@ export async function addLocation(formData: FormData, tripId: string) {
   }
 
   try {
-    const { lat, lng } = await geoCodeAddress(address);
+    const geo = await geoCodeAddress(address);
+
+    if (!geo) {
+      return {
+        success: false,
+        error: "Invalid location. Please enter a valid address.",
+      };
+    }
+
     const count = await prisma.location.count({ where: { tripId } });
 
     await prisma.location.create({
       data: {
         locationTitle: address,
-        lat,
-        lng,
+        lat: geo.lat,
+        lng: geo.lng,
         tripId,
         order: count,
       },
     });
 
-    return { success: true }; // client can redirect
+    return { success: true }; // everything succeeded
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    // return user-friendly error to client
     return { success: false, error: err.message || "Failed to add location." };
   }
 }

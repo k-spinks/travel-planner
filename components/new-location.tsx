@@ -13,11 +13,11 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
     const result = await addLocation(formData, tripId);
 
     if (!result.success) {
-      setError(result.error); // display the error under input
+      setError(result.error); // show error if something went wrong
       return;
     }
 
-    // redirect if successful
+    // successful: redirect
     window.location.href = `/trips/${tripId}`;
   };
 
