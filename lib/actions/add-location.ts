@@ -1,9 +1,9 @@
 "use server";
 
 import { auth } from "@/auth";
-import { prisma } from "../prisma";
+import { prisma } from "@/lib/prisma";
 
-async function geoCodeAddress(address: string) {
+async function geocodeAddress(address: string) {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY!;
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
@@ -13,8 +13,9 @@ async function geoCodeAddress(address: string) {
 
   const data = await response.json();
 
+  // Check if results exist
   if (!data.results || data.results.length === 0) {
-    return null; // invalid address
+    throw new Error("Invalid location. Please enter a valid address.");
   }
 
   const { lat, lng } = data.results[0].geometry.location;
@@ -23,36 +24,34 @@ async function geoCodeAddress(address: string) {
 
 export async function addLocation(formData: FormData, tripId: string) {
   const session = await auth();
-  if (!session) return { success: false, error: "Not authenticated" };
+  if (!session) {
+    throw new Error("Not authenticated");
+  }
 
   const address = formData.get("address")?.toString();
-  if (!address) return { success: false, error: "Missing address" };
+  if (!address) {
+    throw new Error("Missing address");
+  }
 
   try {
-    const geo = await geoCodeAddress(address);
+    const { lat, lng } = await geocodeAddress(address);
 
-    if (!geo) {
-      return {
-        success: false,
-        error: "Invalid location. Please enter a valid address.",
-      };
-    }
-
-    const count = await prisma.location.count({ where: { tripId } });
+    const count = await prisma.location.count({
+      where: { tripId },
+    });
 
     await prisma.location.create({
       data: {
         locationTitle: address,
-        lat: geo.lat,
-        lng: geo.lng,
+        lat,
+        lng,
         tripId,
         order: count,
       },
     });
-
-    return { success: true };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to add location." };
+  } catch (error: any) {
+    // Re-throw to send to client
+    throw new Error(error.message || "Failed to add location.");
   }
 }
