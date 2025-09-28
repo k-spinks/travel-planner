@@ -6,7 +6,7 @@ A modern, interactive web application for planning, managing, and visualizing yo
 
 ## Live Demo
 
-## Check out the app here: [Travel Planner App](https://your-app-link.com)
+## Check out the app here: [Travel Planner App](https://travel-planner-liard-two.vercel.app/)
 
 ## Features
 
@@ -39,18 +39,17 @@ A modern, interactive web application for planning, managing, and visualizing yo
 
 ### Landing Page
 
-![Landing Page](path-to-landing-page.png)
+![Landing Page]('/public/landing_page.png')
 
 ### All Trips Page
 
-![All Trips](path-to-all-trips-page.png)
+![All Trips]('/public/dashboard.png')
 
 ### Trip Detail Tabs
 
 ![Trip Overview](path-to-trip-overview.png)
 ![Trip Itinerary](path-to-trip-itinerary.png)
 ![Trip Map](path-to-trip-map.png)
-![Trip Gallery](path-to-trip-gallery.png)
 
 ### 3D Globe
 
