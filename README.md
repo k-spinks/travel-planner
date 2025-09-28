@@ -79,11 +79,21 @@ Create a `.env` file in the root directory and add the following:
 
 ```env
 DATABASE_URL="YOUR_URL"
+
+# Auth
 AUTH_GOOGLE_ID="YOUR_ID"
 AUTH_GOOGLE_SECRET="yOUR_SECRET"
 AUTH_SECRET="YOUR_SECRET"
+
+# File uploads
 UPLOADTHING_TOKEN='YOUR_TOKEN'
+
+# Google Maps
+# For anything that runs in the browser (Maps JavaScript API, Places Autocomplete, etc.)
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="YOUR_KEY"
+
+# For server-side use only (Geocoding API, Distance Matrix, etc.)
+GOOGLE_MAPS_SERVER_KEY="YOUR_KEY"
 
 ---
 ```

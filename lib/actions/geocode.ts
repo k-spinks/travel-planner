@@ -7,7 +7,7 @@ export async function getCountryFromCoordinates(
   lat: number,
   lng: number
 ): Promise<GeocodeResult> {
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY!;
+  const apiKey = process.env.GOOGLE_MAPS_SERVER_KEY!;
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`
   );

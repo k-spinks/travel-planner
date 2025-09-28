@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
 async function geocodeAddress(address: string) {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
+  const apiKey = process.env.GOOGLE_MAPS_SERVER_KEY!;
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
       address
@@ -13,12 +13,10 @@ async function geocodeAddress(address: string) {
 
   const data = await response.json();
 
-  console.log("Geocode response:", JSON.stringify(data, null, 2)); // log in Vercel
+  console.log("Geocode response:", JSON.stringify(data, null, 2));
 
   if (data.status === "REQUEST_DENIED") {
-    throw new Error(
-      "Google Maps API request denied. Check API key and restrictions."
-    );
+    throw new Error("Google Maps API request denied. Contact Developer");
   }
 
   if (data.status === "ZERO_RESULTS" || !data.results?.length) {
