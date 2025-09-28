@@ -6,7 +6,7 @@ A modern, interactive web application for planning, managing, and visualizing yo
 
 ## Live Demo
 
-## Check out the app here: [Travel Planner App](https://travel-planner-liard-two.vercel.app/)
+Check out the app here: [Travel Planner App](https://travel-planner-liard-two.vercel.app/)
 
 ## Features
 
@@ -35,46 +35,27 @@ A modern, interactive web application for planning, managing, and visualizing yo
 
 ---
 
-## Screenshots
+## Screenshots & Media
 
 ### Landing Page
 
-![Landing Page]('/public/landing_page.png')
+![Landing Page](public/landing_page.png)
 
 ### All Trips Page
 
-![All Trips]('/public/dashboard.png')
+![All Trips](public/dashboard.gif)
 
 ### Trip Detail Tabs
 
-![Trip Overview](path-to-trip-overview.png)
-![Trip Itinerary](path-to-trip-itinerary.png)
-![Trip Map](path-to-trip-map.png)
+![Trip Demo](public/overview.gif)
 
 ### 3D Globe
 
-![3D Globe](path-to-3d-globe.png)
-
----
-
-## Screenshots / Images
-
-> Replace with your own images or GIFs
-
-- **Trip List Page**
-  ![Trip List](./images/trip-list.png)
-
-- **Trip Overview / Itinerary**
-  ![Trip Overview](./images/trip-overview.png)
-
-- **3D Globe / Map View**
-  ![Globe View](./images/globe-view.png)
-
----
+![3D Globe](public/globe.gif)
 
 ## Environment Variables
 
-Create a `.env` file in the root directory and add the following:
+Create a `.env.local` file in the root directory and add the following:
 
 ```env
 DATABASE_URL="YOUR_URL"
