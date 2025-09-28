@@ -25,12 +25,12 @@ async function geocodeAddress(address: string) {
 export async function addLocation(formData: FormData, tripId: string) {
   const session = await auth();
   if (!session) {
-    throw new Error("Not authenticated");
+    return { success: false, error: "Not authenticated" };
   }
 
   const address = formData.get("address")?.toString();
   if (!address) {
-    throw new Error("Missing address");
+    return { success: false, error: "Missing address" };
   }
 
   try {
@@ -49,9 +49,10 @@ export async function addLocation(formData: FormData, tripId: string) {
         order: count,
       },
     });
+
+    return { success: true };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    // Re-throw to send to client
-    throw new Error(error.message || "Failed to add location.");
+  } catch (err: any) {
+    return { success: false, error: err.message || "Failed to add location." };
   }
 }

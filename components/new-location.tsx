@@ -15,16 +15,17 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
     setError(null);
 
     startTransition(async () => {
-      try {
-        await addLocation(formData, tripId);
-        toast.success("Location added successfully!");
-        document.querySelector<HTMLInputElement>(
-          "input[name='address']"
-        )!.value = ""; // clear field
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
-        setError(err.message);
+      const result = await addLocation(formData, tripId);
+
+      if (!result.success) {
+        setError(result.error);
+        toast.error(result.error);
+        return;
       }
+
+      toast.success("Location added successfully!");
+      document.querySelector<HTMLInputElement>("input[name='address']")!.value =
+        "";
     });
   };
 
