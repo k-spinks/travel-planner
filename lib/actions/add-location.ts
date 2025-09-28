@@ -13,8 +13,15 @@ async function geocodeAddress(address: string) {
 
   const data = await response.json();
 
-  // Check if results exist
-  if (!data.results || data.results.length === 0) {
+  console.log("Geocode response:", JSON.stringify(data, null, 2)); // log in Vercel
+
+  if (data.status === "REQUEST_DENIED") {
+    throw new Error(
+      "Google Maps API request denied. Check API key and restrictions."
+    );
+  }
+
+  if (data.status === "ZERO_RESULTS" || !data.results?.length) {
     throw new Error("Invalid location. Please enter a valid address.");
   }
 
