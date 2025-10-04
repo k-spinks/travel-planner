@@ -4,15 +4,28 @@ A modern, interactive web application for planning, managing, and visualizing yo
 
 ---
 
+## Table of Contents
+
+- [Live Demo](#live-demo)
+- [Features](#features)
+- [What I Learned](#what-i-learned)
+- [Tech Stack](#tech-stack)
+- [Screenshots & Media](#screenshots--media)
+- [Environment Variables](#environment-variables)
+
+---
+
 ## Live Demo
 
 Check out the app here: [Travel Planner App](https://travel-planner-liard-two.vercel.app/)
+
+---
 
 ## Features
 
 - **User Authentication**: Sign in with Gmail for a secure experience.
 - **Landing Page**: Engaging homepage with introduction and call-to-action.
-- **Create New Trip**: Users can add a new trip with title, description, dates, and an image
+- **Create New Trip**: Users can add a new trip with title, description, dates, and an image.
 - **Trip Detail Page**: Each trip has a dedicated page with tabs for:
   - **Overview**: Trip summary and details
   - **Itinerary**: Drag-and-drop reordering of locations
@@ -24,6 +37,20 @@ Check out the app here: [Travel Planner App](https://travel-planner-liard-two.ve
 
 ---
 
+## What I Learned
+
+This project helped me grow significantly as a **full-stack developer**. Key takeaways include:
+
+- ✅ Structuring a **scalable CRUD system** using Next.js App Router and Prisma
+- ✅ Designing **relational data models** for Trips → Locations with PostgreSQL
+- ✅ Implementing **Google OAuth authentication** and persistent user sessions
+- ✅ Building **drag-and-drop interfaces** and saving ordering to the database
+- ✅ Integrating **Google Maps API** for geolocation and live map rendering
+- ✅ Managing **secure file uploads** with UploadThing
+- ✅ Crafting **mobile-responsive layouts** with Tailwind
+
+---
+
 ## Tech Stack
 
 - **Frontend**: React, Next.js, Tailwind CSS, TypeScript
@@ -31,7 +58,7 @@ Check out the app here: [Travel Planner App](https://travel-planner-liard-two.ve
 - **Hosting / Deployment**: Vercel
 - **Maps & Location Services**: Google Maps API
 - **File Uploads**: UploadThing
-- **Authentication**: Gmail OAuth / Google Auth
+- **Authentication**: Google OAuth
 
 ---
 
@@ -53,6 +80,8 @@ Check out the app here: [Travel Planner App](https://travel-planner-liard-two.ve
 
 ![3D Globe](public/globe.gif)
 
+---
+
 ## Environment Variables
 
 Create a `.env.local` file in the root directory and add the following:
@@ -62,7 +91,7 @@ DATABASE_URL="YOUR_URL"
 
 # Auth
 AUTH_GOOGLE_ID="YOUR_ID"
-AUTH_GOOGLE_SECRET="yOUR_SECRET"
+AUTH_GOOGLE_SECRET="YOUR_SECRET"
 AUTH_SECRET="YOUR_SECRET"
 
 # File uploads
@@ -74,6 +103,4 @@ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="YOUR_KEY"
 
 # For server-side use only (Geocoding API, Distance Matrix, etc.)
 GOOGLE_MAPS_SERVER_KEY="YOUR_KEY"
-
----
 ```
